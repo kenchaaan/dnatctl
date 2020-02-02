@@ -12,4 +12,3 @@ venv
 # for go
 bin
 src
-pkg/darwin_amd64

@@ -1,10 +1,16 @@
 package main
 
 import (
-	"github.com/spf13/cobra/cobra/cmd"
+	"./pkg/cmd"
+	"os"
 )
 
 
 func main() {
-	cmd.Execute()
+
+	command := cmd.NewDnatctlCommand()
+
+	if err := command.Execute(); err != nil {
+		os.Exit(1)
+	}
 }
