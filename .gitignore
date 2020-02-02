@@ -1,0 +1,15 @@
+# ignore gitignore
+#.gitignore
+
+# for intellij
+.idea
+*.iml
+
+# for python
+venv
+*.pyc
+
+# for go
+bin
+src
+pkg/darwin_amd64
