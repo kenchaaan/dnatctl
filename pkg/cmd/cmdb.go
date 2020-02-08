@@ -16,7 +16,7 @@ var (
 	rootCmd = &cobra.Command{
 		Use:   "cobra",
 		Short: "short ",
-		Long: `long`,
+		Long:  `long`,
 	}
 )
 

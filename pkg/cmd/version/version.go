@@ -3,6 +3,7 @@ package version
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/kenchaaan/dnatctl/pkg/util"
 
 	"github.com/spf13/cobra"
 )
@@ -15,13 +16,13 @@ var (
 )
 
 type Info struct {
-	GitVersion   string `json:"version"`
-	GitCommit    string `json:"commitId"`
-	BuildDate    string `json:"BuildDate"`
-	GoVersion    string `json:"GoVersion"`
+	GitVersion string `json:"version"`
+	GitCommit  string `json:"commitId"`
+	BuildDate  string `json:"BuildDate"`
+	GoVersion  string `json:"GoVersion"`
 }
 
-func NewVersionCmmand() *cobra.Command {
+func NewVersionCmmand(stream util.IOStream) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "version",
 		Short: "Print the version number of dnatctl",
@@ -38,7 +39,7 @@ func NewVersionCmmand() *cobra.Command {
 	return cmd
 }
 
-func Get() Info{
+func Get() Info {
 	return Info{
 		GitVersion: GitVersion,
 		GitCommit:  GitCommit,
