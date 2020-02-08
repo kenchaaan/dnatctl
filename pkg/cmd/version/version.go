@@ -22,7 +22,7 @@ type Info struct {
 	GoVersion  string `json:"GoVersion"`
 }
 
-func NewVersionCmmand(stream util.IOStream) *cobra.Command {
+func NewVersionCmmand(stream util.IOStreams) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "version",
 		Short: "Print the version number of dnatctl",

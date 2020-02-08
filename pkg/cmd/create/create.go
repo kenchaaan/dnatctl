@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCreateCommand(stream util.IOStream) *cobra.Command {
+func NewCreateCommand(stream util.IOStreams) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create",
 		Short: "create shrt",
