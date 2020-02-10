@@ -1,14 +1,13 @@
 package main
 
 import (
-	"./pkg/cmd"
+	"github.com/kenchaaan/dnatctl/pkg/cmd"
 	"os"
 )
 
-
 func main() {
 
-	command := cmd.NewDnatctlCommand()
+	command := cmd.NewDeafultDnatctlCommand()
 
 	if err := command.Execute(); err != nil {
 		os.Exit(1)
