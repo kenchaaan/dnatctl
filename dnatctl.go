@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func main() {
+func a() {
 
 	command := cmd.NewDeafultDnatctlCommand()
 

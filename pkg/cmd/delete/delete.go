@@ -31,7 +31,7 @@ func NewDeleteCommand(streams util.IOStreams) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "delete",
-		Short: "delete shrt",
+		Short: "delete short",
 		Long:  "Delete long",
 		Run: func(cmd *cobra.Command, args []string) {
 			o.Validate(cmd, args)
@@ -60,7 +60,7 @@ func (o *DeleteOptions) Validate(cmd *cobra.Command, args []string) error {
 		Default:   "",
 		AllowEdit: false,
 		Validate:  validate,
-		Mask:      10,
+		Mask:      0,
 		Templates: nil,
 		IsConfirm: false,
 		IsVimMode: false,
