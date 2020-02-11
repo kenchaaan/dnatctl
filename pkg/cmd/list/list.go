@@ -1,9 +1,11 @@
 package list
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/kenchaaan/dnatctl/pkg/util"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type ListOptions struct {
@@ -36,7 +38,25 @@ func NewListCommand(stream util.IOStreams) *cobra.Command {
 	return cmd
 }
 
-func (o *ListOptions) Run(cmd *cobra.Command, args []string) error {
-	fmt.Println("listed", o.Verbose)
-	return fmt.Errorf("jfjf")
+func (o *ListOptions) Complete(cmd *cobra.Command, args []string) error {
+	return nil
 }
+
+func (o *ListOptions) Run(cmd *cobra.Command, args []string) error {
+	//fmt.Println("listed", o.Verbose)
+	//r := viper.Get("mappingGlobalToPseudo")
+	//a, _ := json.Marshal(r)
+	//fmt.Println(string(a))
+	//return fmt.Errorf("jfjf")
+	v := viper.GetStringMapString("nsxt")
+	fmt.Println(v["logicalRouterId"])
+	d := util.DnatConfigurations{
+		LogicalRouterId: v["logicalrouterid"],
+	}
+	results := util.ListNsxtDnatConfigurations(d)
+	r, _ := json.Marshal(results)
+	fmt.Println(string(r))
+	fmt.Println(results)
+	return nil
+}
+

@@ -8,4 +8,5 @@ require (
 	github.com/spf13/viper v1.6.2
 	github.com/terraform-providers/terraform-provider-nsxt v1.1.2
 	github.com/vmware/go-vmware-nsxt v0.0.0-20190201205556-16aa0443042d
+	golang.org/x/oauth2 v0.0.0-20190220154721-9b3c75971fc9
 )

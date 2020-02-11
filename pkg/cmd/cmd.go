@@ -10,12 +10,10 @@ import (
 	"github.com/kenchaaan/dnatctl/pkg/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	nsxt "github.com/vmware/go-vmware-nsxt"
 	"os"
 )
 
-type Steram struct {
-
-}
 
 // NewDfaultDnatctlCommand creates the `dnatctl` command with default arguments.
 func NewDeafultDnatctlCommand() *cobra.Command {
@@ -45,7 +43,7 @@ func NewDnatctlCommand(stream util.IOStreams) *cobra.Command {
 
 func RunHelp(cmd *cobra.Command, args []string) {
 	//cmd.Help()
-	r := viper.Get("shared_global")
+	r := viper.Get("mappingGlobalToPseudo")
 	a, _ := json.Marshal(r)
 	fmt.Println(string(a))
 	//fmt.Println(viper.Get("."))
@@ -62,5 +60,28 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err != nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 		fmt.Println(err)
+	}
+
+	s := viper.GetStringMapString("nsxt")
+	fmt.Println(s["endpoint"], s["username"])
+	n := NewNsxtConfigurations(s["endpoint"], s["username"], s["password"])
+	_ = util.Initialize(n)
+}
+
+func NewNsxtConfigurations(host string, userName string, password string) *nsxt.Configuration {
+	return &nsxt.Configuration{
+		BasePath:  "/api/v1",
+		Host:      host,
+		Scheme:    "https",
+		UserAgent: "dnatctl/1.0.0/go",
+		UserName:  userName,
+		Password:  password,
+		Insecure:  true,
+		RemoteAuth: false,
+		DefaultHeader: make(map[string]string),
+		RetriesConfiguration: nsxt.ClientRetriesConfiguration{
+			RetryMinDelay: 1000,
+		},
+
 	}
 }
