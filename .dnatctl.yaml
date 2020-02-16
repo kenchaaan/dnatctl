@@ -1,2 +1,10 @@
-shared_global:
-  "a": "b"
+nsxt:
+  username: "admin"
+  password: "password"
+  endpoint: "172.28.128.3:8443"
+  logical_router_id: "aaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa"
+
+pair_globals_to_pseudos:
+  "200.200.200.200": "133.133.133.133"
+  "200.200.200.201": "133.133.133.134"
+  "200.200.200.202": "133.133.133.135"

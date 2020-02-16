@@ -3,7 +3,7 @@ package delete
 import (
 	"errors"
 	"fmt"
-	"github.com/kenchaaan/dnatctl/pkg/util"
+	"github.com/kenchaaan/dnatctl/pkg/dnatclient"
 	"github.com/spf13/cobra"
 	"github.com/manifoldco/promptui"
 )
@@ -12,21 +12,21 @@ type DeleteOptions struct {
 	Verbose bool
 	CanDelete bool
 
-	Id int
+	Ip string
 
-	IOStream util.IOStreams
+	IOStream dnatclient.IOStreams
 }
 
-func NewDeleteOptions(streams util.IOStreams) *DeleteOptions {
+func NewDeleteOptions(streams dnatclient.IOStreams) *DeleteOptions {
 	return &DeleteOptions{
 		Verbose:   false,
 		CanDelete: false,
-		Id:        -1,
+		Ip:        "",
 		IOStream:  streams,
 	}
 }
 
-func NewDeleteCommand(streams util.IOStreams) *cobra.Command {
+func NewDeleteCommand(streams dnatclient.IOStreams) *cobra.Command {
 	o := NewDeleteOptions(streams)
 
 	cmd := &cobra.Command{
@@ -40,8 +40,8 @@ func NewDeleteCommand(streams util.IOStreams) *cobra.Command {
 	}
 
 	cmd.Flags().BoolVar(&o.CanDelete, "non-interactive", o.CanDelete, "do deletion with non interactive")
-	cmd.Flags().IntVar(&o.Id, "id", o.Id, "(REQUIRED) ID of the target DNAT configuration")
-	cmd.MarkFlagRequired("id")
+	cmd.Flags().StringVarP(&o.Ip, "transported-ip", "t", o.Ip, "(REQUIRED) IP of the target DNAT configuration")
+	cmd.MarkFlagRequired("transported-ip")
 
 
 	return cmd
@@ -81,5 +81,6 @@ func (o *DeleteOptions) Validate(cmd *cobra.Command, args []string) error {
 }
 
 func (o *DeleteOptions) Run(cmd *cobra.Command, args []string) error {
+	dnatclient.DeleteDnatConfiguration(o.Ip)
 	return nil
 }

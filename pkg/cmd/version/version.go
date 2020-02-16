@@ -3,7 +3,7 @@ package version
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/kenchaaan/dnatctl/pkg/util"
+	"github.com/kenchaaan/dnatctl/pkg/dnatclient"
 
 	"github.com/spf13/cobra"
 )
@@ -22,7 +22,7 @@ type Info struct {
 	GoVersion  string `json:"GoVersion"`
 }
 
-func NewVersionCmmand(stream util.IOStreams) *cobra.Command {
+func NewVersionCmmand(stream dnatclient.IOStreams) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "version",
 		Short: "Print the version number of dnatctl",

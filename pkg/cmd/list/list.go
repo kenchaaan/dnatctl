@@ -3,25 +3,25 @@ package list
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/kenchaaan/dnatctl/pkg/util"
+	"github.com/kenchaaan/dnatctl/pkg/dnatclient"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 type ListOptions struct {
-	Verbose bool
+	Verbose            bool
+	DnatConfigurations dnatclient.DnatClientConfiguration
 
-	IOStream util.IOStreams
+	IOStream dnatclient.IOStreams
 }
 
-func NewListOptions(stream util.IOStreams) *ListOptions{
+func NewListOptions(stream dnatclient.IOStreams) *ListOptions{
 	return &ListOptions{
 		Verbose:  false,
 		IOStream: stream,
 	}
 }
 
-func NewListCommand(stream util.IOStreams) *cobra.Command {
+func NewListCommand(stream dnatclient.IOStreams) *cobra.Command {
 	o := NewListOptions(stream)
 
 	cmd := &cobra.Command{
@@ -33,30 +33,31 @@ func NewListCommand(stream util.IOStreams) *cobra.Command {
 		},
 	}
 
-	cmd.Flags().BoolVarP(&o.Verbose, "verbose", "v", o.Verbose, "verbose output")
-
 	return cmd
 }
 
-func (o *ListOptions) Complete(cmd *cobra.Command, args []string) error {
-	return nil
-}
 
 func (o *ListOptions) Run(cmd *cobra.Command, args []string) error {
-	//fmt.Println("listed", o.Verbose)
-	//r := viper.Get("mappingGlobalToPseudo")
-	//a, _ := json.Marshal(r)
-	//fmt.Println(string(a))
-	//return fmt.Errorf("jfjf")
-	v := viper.GetStringMapString("nsxt")
-	fmt.Println(v["logicalRouterId"])
-	d := util.DnatConfigurations{
-		LogicalRouterId: v["logicalrouterid"],
+	results := dnatclient.ListDnatConfigurations()
+	f := func(id string, displayName string, matchDestinationNetwork string, translatedNetwork string) *Results{
+		return &Results{
+			Id:                      id,
+			DisplayName:             displayName,
+			MatchDestinationNetwork: matchDestinationNetwork,
+			TranslatedNetwork:       translatedNetwork,
+		}
 	}
-	results := util.ListNsxtDnatConfigurations(d)
-	r, _ := json.Marshal(results)
-	fmt.Println(string(r))
-	fmt.Println(results)
+	for _, i := range results {
+		rrr := f(i.Id, i.DisplayName, i.MatchDestinationNetwork, i.TranslatedNetwork)
+		rrrr, _ := json.Marshal(*rrr)
+		fmt.Println(string(rrrr))
+	}
 	return nil
 }
 
+type Results struct {
+	Id                      string `json:"id"`
+	DisplayName             string `json:"display_name"`
+	MatchDestinationNetwork string `json:"match_destination_network"`
+	TranslatedNetwork       string `json:"translated_network"`
+}
