@@ -15,4 +15,4 @@ require (
 	golang.org/x/text v0.3.2 // indirect
 )
 
-replace github.com/vmware/go-vmware-nsxt v0.0.0-20200114231430-33a5af043f2e => C:\Users\kenji-kondo\src\github.com\kenchaaan\go-vmware-nsxt
+replace github.com/vmware/go-vmware-nsxt v0.0.0-20200114231430-33a5af043f2e => github.com/vmware/go-vmware-nsxt v0.0.0-847b08bedf5
