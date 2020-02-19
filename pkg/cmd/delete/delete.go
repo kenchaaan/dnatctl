@@ -12,7 +12,7 @@ type DeleteOptions struct {
 	Verbose bool
 	CanDelete bool
 
-	Ip string
+	Hostname string
 
 	IOStream dnatclient.IOStreams
 }
@@ -21,7 +21,7 @@ func NewDeleteOptions(streams dnatclient.IOStreams) *DeleteOptions {
 	return &DeleteOptions{
 		Verbose:   false,
 		CanDelete: false,
-		Ip:        "",
+		Hostname:  "",
 		IOStream:  streams,
 	}
 }
@@ -31,8 +31,8 @@ func NewDeleteCommand(streams dnatclient.IOStreams) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "delete",
-		Short: "delete short",
-		Long:  "Delete long",
+		Short: "Delete the DNAT configuration identified by hostname",
+		Long:  "Delete the DNAT configuration identified by hostname",
 		Run: func(cmd *cobra.Command, args []string) {
 			o.Validate(cmd, args)
 			o.Run(cmd, args)
@@ -40,8 +40,8 @@ func NewDeleteCommand(streams dnatclient.IOStreams) *cobra.Command {
 	}
 
 	cmd.Flags().BoolVar(&o.CanDelete, "non-interactive", o.CanDelete, "do deletion with non interactive")
-	cmd.Flags().StringVarP(&o.Ip, "transported-ip", "t", o.Ip, "(REQUIRED) IP of the target DNAT configuration")
-	cmd.MarkFlagRequired("transported-ip")
+	cmd.Flags().StringVarP(&o.Hostname, "external-hostname", "n", o.Hostname, "(REQUIRED) IP of the target DNAT configuration")
+	cmd.MarkFlagRequired("external-hostname")
 
 
 	return cmd
@@ -81,6 +81,6 @@ func (o *DeleteOptions) Validate(cmd *cobra.Command, args []string) error {
 }
 
 func (o *DeleteOptions) Run(cmd *cobra.Command, args []string) error {
-	dnatclient.DeleteDnatConfiguration(o.Ip)
+	dnatclient.DeleteDnatConfiguration(o.Hostname)
 	return nil
 }

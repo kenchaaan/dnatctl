@@ -25,17 +25,17 @@ func NewCreateCommand(stream dnatclient.IOStreams) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "create",
-		Short: "create shrt",
-		Long:  "create long",
+		Short: "Create a new DNAT configuration",
+		Long:  "Create a new DNAT configuration",
 		Run: func(cmd *cobra.Command, args []string) {
 			o.Run(cmd, args)
 		},
 	}
 
-	cmd.Flags().StringVarP(&o.DisplayName, "display-name", "n", "", "Display name")
-	cmd.Flags().StringVarP(&o.GlobalIp, "global-ip", "g", "", "Global IP that accepts via the Internet")
-	cmd.Flags().StringVarP(&o.TransportedIp, "transported-ip", "t", "", "Transported IP")
-	cmd.MarkFlagRequired("display-name")
+	cmd.Flags().StringVarP(&o.DisplayName, "external-hostname", "n", "", "(REQUIRED) External hostname")
+	cmd.Flags().StringVarP(&o.GlobalIp, "global-ip", "g", "", "(REQUIRED) Global IP that accepts via the Internet")
+	cmd.Flags().StringVarP(&o.TransportedIp, "transported-ip", "t", "", "(REQUIRED) Transported IP")
+	cmd.MarkFlagRequired("external-hostname")
 	cmd.MarkFlagRequired("global-ip")
 	cmd.MarkFlagRequired("transported-ip")
 

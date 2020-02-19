@@ -47,7 +47,7 @@ func ( d *DnatClientConfiguration) Initialize(nsxthost string, username string, 
 
 // TODO(kenji-kondo): Enable it to list with the scope/tag and return as a more
 //   user friendly result format.
-func ListDnatConfigurations() (resrult []manager.NatRule) {
+func ListDnatConfigurations()  []manager.NatRule {
 	rr, _, _ := d.nsxClient.LogicalRoutingAndServicesApi.ListNatRules(d.nsxClient.Context, d.LogicalRouterId, nil)
 	result := rr.Results
 	var r []manager.NatRule
@@ -74,7 +74,7 @@ func AddDnatConfiguration(displayName string, globalIp string, translatedIp stri
 			FirewallMatch:           "MATCH_EXTERNAL_ADDRESS",
 			Tags: []common.Tag{{
 				Scope: scope,
-				Tag:   translatedIp,
+				Tag:   displayName,
 			}},
 		}
 	}
@@ -83,11 +83,11 @@ func AddDnatConfiguration(displayName string, globalIp string, translatedIp stri
 	return err
 }
 
-func DeleteDnatConfiguration(ip string) error {
+func DeleteDnatConfiguration(hostname string) error {
 	r := ListDnatConfigurations()
 	var ids []string
 	for _, i := range r {
-		if len(i.Tags) != 0 && i.Tags[0].Tag == ip {
+		if len(i.Tags) != 0 && i.Tags[0].Tag == hostname {
 			ids = append(ids, i.Id)
 		}
 	}
